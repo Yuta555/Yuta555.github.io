@@ -32,7 +32,7 @@
       
       var g = svg.append("g");
       
-      d3.json("precincts.geojson", function(error, data) {
+      d3.json("https://github.com/Yuta555/Yuta555.github.io/blob/main/precincts.geojson", function(error, data) {
           g.selectAll("path")
            .data(data.features)
            .enter()
