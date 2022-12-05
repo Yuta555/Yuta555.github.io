@@ -27,7 +27,7 @@
           .projection(projection);
       var g = svg.append("g");
       
-      d3.json("precincts.geojson", function(error, topology) {
+      d3.json("https://github.com/Yuta555/Yuta555.github.io/blob/main/precincts.geojson", function(error, topology) {
           g.selectAll("path")
             .data(topojson.object(topology, topology.objects.countries)
                 .geometries)
