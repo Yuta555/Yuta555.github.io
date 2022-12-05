@@ -12,6 +12,7 @@
     </style>
     <script src="https://d3js.org/d3.v6.min.js"></script>
     <script src="https://d3js.org/topojson.v0.min.js"></script>
+    <script src="https://d3js.org/d3-geo-projection.v2.min.js">
   </head>
   <body>
     <p> NYC MAP</p>
@@ -20,7 +21,7 @@
       const width = 900;
       const height = 600;
 
-      const projection = d3.geo.mercator();
+      const projection = d3.geoMercator();
       
       const svg = d3.select("body").append("svg")
           .attr("width", width)
