@@ -64,10 +64,6 @@
                                 .attr("width", SvgWidth)
                                 .attr("height", SvgHeight)
                                 .style('fill', 'white')
-                                // .on("click", function(d){
-                                //     reset_map;
-                                //     reset_pie_all;
-                                // });
 
         var nycMap = svg.append('g')
                           .attr('width', MapWidth)
@@ -95,16 +91,6 @@
 
         var colorAxis = legend.append('g').attr("transform", "translate(0," + LegendSize.height + ")");
         
-        // pie chart
-        var pieChart = svg.append('g')
-                          .attr('width', PieWidth)
-                          .attr('height', PieHeight)
-                          .attr("transform", "translate(" + PieMargin.left+ "," + PieMargin.top + ")");
-        var arc = d3.arc()
-                .innerRadius(InnerRadius)
-                .outerRadius(OutterRadius);
-
-        var pieColor = d3.scaleOrdinal(['#4daf4a','#377eb8','#ff7f00','#984ea3','#6C182A']);
         const CrimeColorMap = {'ASSAULT': '#4daf4a', 
                                 'THEFT': '#377eb8',
                                 'ROBBERY': '#ff7f00',
