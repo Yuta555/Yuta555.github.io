@@ -23,20 +23,6 @@
         const MapMargin = {"left": -220, "top": -35}
         const LegendMargin = {"left": 0, "top": 10}
         const LegendSize = {"width": 20, "height": 100}
-
-        // Pie
-        const PieWidth = 100
-        const PieHeight = 100
-        const PieMargin = {"left": 650, "top": 100}
-        const InnerRadius = 35
-        const OutterRadius = 70
-
-        // bar plot
-        const BarWidth = 150
-        const BarHeight =100
-        const BarMargin1 = {"left": 500, "top": 250}
-        const BarMargin2 = {"left": 700, "top": 250}
-        const BarMargin3 = {"left": 900, "top": 250}
        
         const duration = 24;
 
@@ -247,16 +233,6 @@
         }
 
 
-        function highlightArc(crime_type){
-            pieChart.selectAll('.arc')
-                    .select('path')
-                    .attr('fill-opacity', function(d){
-                        if (d.data.type == crime_type){
-                            return 1;
-                        }
-                        return 0.35;
-                    })
-        }
 
         function calcTranslate(data, move = 5) {
             const moveAngle = data.startAngle + ((data.endAngle - data.startAngle) / 2);
