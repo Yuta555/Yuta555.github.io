@@ -111,51 +111,7 @@
                                 'SEX CRIMES': '#984ea3',
                                 'MURDER': '#6C182A'}
         
-        // Bar plots 
-        var BarForAge = svg.append('g')
-                          .attr('width', BarWidth)
-                          .attr('height', BarHeight)
-                          .attr("transform", "translate(" + BarMargin1.left+ "," + BarMargin1.top + ")");
-        
-        var xScaleAge = d3.scaleBand().range ([0, BarWidth]).padding(0.4);
-        var yScaleAge = d3.scaleLinear().range ([BarHeight, 0]);
 
-        var BarForRace = svg.append('g')
-                          .attr('width', BarWidth)
-                          .attr('height', BarHeight)
-                          .attr("transform", "translate(" + BarMargin2.left+ "," + BarMargin2.top + ")");
-
-        var xScaleRace = d3.scaleBand().range ([0, BarWidth]).padding(0.4);
-        var yScaleRace = d3.scaleLinear().range ([BarHeight, 0]);
-
-        var BarForSex = svg.append('g')
-                          .attr('width', BarWidth)
-                          .attr('height', BarHeight)
-                          .attr("transform", "translate(" + BarMargin3.left+ "," + BarMargin3.top + ")");
-                        
-        var xScaleSex = d3.scaleBand().range ([0, BarWidth]).padding(0.4);
-        var yScaleSex = d3.scaleLinear().range ([BarHeight, 0]);
-        
-        // reset button
-        var reset_button = d3.select("button#reset")
-                             .on('click', function(){
-                                 reset_map();
-                                 reset_pie_all();
-                                 reset_age();
-                                 reset_sex();
-                                 reset_race();
-                             })
-
-        
-        // initialization for zoom
-        // const zoom = d3.zoom()
-        //                .scaleExtent([1, 4])
-        //                .on("zoom", zoomed);
-        // nycMap.call(zoom)
-
-        // heatmap of precinct
-        // https://raw.githubusercontent.com/oliverliuoo/nyc-crime-covid19/main/d3/source/data/boroughs.geo.json
-        // https://raw.githubusercontent.com/oliverliuoo/nyc-crime-covid19/main/d3/source/data/police_precincts.geo.json
         d3.json('police_precincts.geo.json').then(function(geo_data){
             
             // console.log(geo_data)
