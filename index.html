@@ -87,15 +87,15 @@
         d3.json('police_precincts.geo.json').then(function(geo_data){
             
             // console.log(geo_data)
-            d3.json('https://raw.githubusercontent.com/oliverliuoo/nyc-crime-covid19/main/d3/source/data/cnt_group_by_precinct.json').then(function(data){
+            d3.csv('num_precinct.csv').then(function(data){
                 // console.log(data)
                 
                 // var data_by_precinct = d3.group(data, d => d.arrest_precinct);
                 // console.log(data_by_precinct)
                 var sum_cnt_list = [];
-                // calculae sum values for each precinct
+                // calculate sum values for each precinct
                 for (key in data){
-                    sum_cnt_list.push(data[key]['sum']);
+                    sum_cnt_list.push(data[key]);
                 }
                 maxCnt = d3.max(sum_cnt_list);
                 minCnt = d3.min(sum_cnt_list);
@@ -107,13 +107,13 @@
                 .data(geo_data.features)
                 .enter().append('path')
                     .attr("id", function(d){return d.properties.Precinct.toString()})
-                    .attr("tot_cnt", function(d){return data[d.properties.Precinct.toString()]['sum']})
+                    .attr("tot_cnt", function(d){return data[d.properties.Precinct.toString()]})
                     .attr("stroke","grey")//设置边线颜色
                     .attr("stroke-width",0.75)//设置边线宽度
                     .style('fill', '#E13C19')
                     .style('fill-opacity', function(d){
                         if (data.hasOwnProperty(d.properties.Precinct.toString())){
-                            return (data[d.properties.Precinct.toString()]['sum'] - minCnt) / (maxCnt - minCnt);
+                            return (data[d.properties.Precinct.toString()] - minCnt) / (maxCnt - minCnt);
                         }
                         return 0;
                     })
@@ -124,7 +124,7 @@
                             // edit tooltip
                             console.log(d);
                             if (CRIME_TYPE == "all"){
-                                crime_cnt = data[this.id]['sum'];
+                                crime_cnt = data[this.id];
                             }
                             else{
                                 crime_cnt = data[this.id][CRIME_TYPE];
