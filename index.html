@@ -136,19 +136,7 @@
                             d3.select(this).transition()
                                     .attr('stroke', 'black')
                                     .attr("stroke-width", 1);
-                            update_pie(this.id);
-                            if (CRIME_TYPE == 'all'){
-                                update_age(1, this.id);
-                                update_race(1, this.id);
-                                update_sex(1, this.id);
-                            }
-                            else{
-                                key = [CRIME_TYPE, this.id]
-                                update_age(3, key);
-                                update_race(3, key);
-                                update_sex(3, key);
-                            }
-                                            })
+		    })
                     .on("mousemove", function(){
                             return tooltip.style("top", (event.pageY-20)+"px")
                                           .style("left",(event.pageX+20)+"px");})
@@ -156,20 +144,8 @@
                             tooltip.style("visibility", "hidden");
                             d3.select(this).transition()
                                     .attr('stroke', 'grey')
-                                    .attr("stroke-width",0.75);
-                            reset_pie_partial();
-                            if (CRIME_TYPE == 'ALL'){
-                                reset_age();
-                                reset_sex();
-                                reset_race();
-                            }
-                            else{
-                                update_age(2, CRIME_TYPE);
-                                update_race(2, CRIME_TYPE);
-                                update_sex(2, CRIME_TYPE);
-                            }
-                                        })
-                    //.on('click', click_map);
+                                    .attr("stroke-width",0.75);   
+                    })
 
             });    
         });
