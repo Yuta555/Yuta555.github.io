@@ -156,7 +156,7 @@
         // heatmap of precinct
         // https://raw.githubusercontent.com/oliverliuoo/nyc-crime-covid19/main/d3/source/data/boroughs.geo.json
         // https://raw.githubusercontent.com/oliverliuoo/nyc-crime-covid19/main/d3/source/data/police_precincts.geo.json
-        d3.json('https://raw.githubusercontent.com/Yuta555/Yuta555.github.io/blob/main/police_precincts.geo.json').then(function(geo_data){
+        d3.json('police_precincts.geo.json').then(function(geo_data){
             
             // console.log(geo_data)
             d3.json('https://raw.githubusercontent.com/oliverliuoo/nyc-crime-covid19/main/d3/source/data/cnt_group_by_precinct.json').then(function(data){
