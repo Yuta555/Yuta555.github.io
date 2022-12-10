@@ -115,7 +115,7 @@
 			.data(geo_data.features)
 			.enter().append('path')
 			    .attr("id", function(d){return d.properties.Precinct})
-			    .attr("tot_cnt", function(d){return data[addr_pct_cd==this.id].freq})
+			    .attr("tot_cnt", function(d){return data[data.addr_pct_cd==this.id].freq})
 			    .attr("stroke","grey")
 			    .attr("stroke-width",0.75)
 			    .style('fill', '#E13C19')
