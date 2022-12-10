@@ -136,7 +136,7 @@
 //				    }
 				    tooltip.style("visibility", "visible")
 					   .text("precinct-ID: " + this.id + "\n" + 
-					   "  crime count: " + d.properties.numCrime + "  crime_type: " + "All");
+					   "  crime count: " + geo_data.features.properties.numCrime + "  crime_type: " + "All");
 
 				    d3.select(this).transition()
 					    .attr('stroke', 'black')
