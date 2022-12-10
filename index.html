@@ -18,8 +18,8 @@
         const SvgHeight = 600
         
         // Map
-        const MapWidth = 100
-        const MapHeight = 50
+        const MapWidth = 200
+        const MapHeight = 100
         const MapMargin = {"left": -220, "top": -35}
         const LegendMargin = {"left": 0, "top": 10}
         const LegendSize = {"width": 20, "height": 100}
@@ -109,7 +109,7 @@
 			    .style('fill', '#E13C19')
 			    .style('fill-opacity', function(d){
 				if (data.hasOwnProperty(d.properties.Precinct.toString())){
-				    return (data[d.properties.Precinct.toString()]['All'] - minFreq) / (maxFreq - minFreq);
+				    return (data[d.properties.Precinct]['All'] - minFreq) / (maxFreq - minFreq);
 				}
 				return 0;
 			    })
