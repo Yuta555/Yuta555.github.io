@@ -341,31 +341,7 @@
             return `translate(${- move * Math.cos(moveAngle + Math.PI / 2)}, ${- move * Math.sin(moveAngle + Math.PI / 2)})`;
         }
 
-        function click_map(d) {
-            var x, y, k;
-            console.log(d);
-            if (d && centered !== d) {
-                var centroid = pathGenerator.centroid(d);
-                console.log(centroid)
-                x = centroid[0];
-                y = centroid[1];
-                k = 4;
-                centered = d;
-            } else {
-                x = MapWidth / 2;
-                y = MapHeight / 2;
-                k = 1;
-                centered = null;
-            }
 
-            nycMap.selectAll("path")
-                .classed("active", centered && function(d) { return d === centered; });
-
-            nycMap.transition()
-                .duration(750)
-                .attr("transform", "translate(" + MapWidth / 2 + "," + MapHeight / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
-                .style("stroke-width", 1.5 / k + "px");
-         }
         </script>
     </body>
 </html>
