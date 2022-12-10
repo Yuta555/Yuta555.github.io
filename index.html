@@ -102,18 +102,14 @@
 		}
 		  
                 
-                // var data_by_precinct = d3.group(data, d => d.arrest_precinct);
-                // console.log(data_by_precinct)
                 var freq_list = [];
                 // calculate sum values for each precinct
-                for (var i=0; i<data.length; i++){
+                for (var i = 0; i < data.length; i++){
 			freq_list.push(data[i].freq);
                 }
                 maxFreq = d3.max(freq_list);
                 minFreq = d3.min(freq_list);
-
-                // console.log(minCnt) 
-                // console.log(maxCnt)            
+       
 
                 map.selectAll('path')
 			.data(geo_data.features)
@@ -139,8 +135,8 @@
 //					crime_cnt = data[this.id][CRIME_TYPE];
 //				    }
 				    tooltip.style("visibility", "visible")
-					   .text("precinct-ID: " + d.properties.Precinct + "\n" + 
-					   "  crime count: " + d.properties.num_crime + "  crime_type: " + "All");
+					   .text("precinct-ID: " + this.id + "\n" + 
+					   "  crime count: " + data[id] + "  crime_type: " + "All");
 
 				    d3.select(this).transition()
 					    .attr('stroke', 'black')
