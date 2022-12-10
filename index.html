@@ -249,11 +249,11 @@
 		.attr("width", xScaleAge.bandwidth())
 		.attr("height", function(d) { return barHeight - yScaleAge(d.freq); })
 		.style("fill", "#ECBA40")
-		.on('click', function(event, v){    
+		.on('click', function(v){    
 		    //console.log(v);
-		    crime_type = v.data.crime_type
-		    highlightArc(v.data.crime_type)
-		    update_map(v.data.crime_type);
+		    crime_type = v.crime_type
+		    highlightArc(v.crime_type)
+		    update_map(v.crime_type);
 		    });
 
 	 });
