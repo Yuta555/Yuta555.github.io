@@ -252,10 +252,81 @@
 		.on('click', function(v){    
 		    //console.log(v);
 		    crime_type = v.crime_type
+		    highlightBar(v.crime_type)
 		    update_map(v.crime_type);
 		    });
 
 	 });
+
+	function update_age(mode, key){
+            d3.json('num_crime_byType.json').then(function(data){
+                if (mode == 1){
+                    yScaleAge.domain([0, d3.max(data, function(d){ 
+                        return d3.sum(Object.values(d.precinct_type_map[key]));
+                    })]);
+                    BarForAge.select(".yAxis")
+                             .call(d3.axisLeft(yScaleAge).tickFormat(function(d){
+                                return d;
+                             }).ticks());
+                    BarForAge.selectAll("rect")
+                                .attr("y", function(d) {
+                                    var cnt = d3.sum(Object.values(d.precinct_type_map[key]));
+                                    return yScaleAge(cnt);
+                                })
+                                .attr("height", function(d) { 
+                                    var cnt = d3.sum(Object.values(d.precinct_type_map[key]));
+                                    return BarHeight - yScaleAge(cnt);})
+                    }
+                if (mode == 2){
+                    yScaleAge.domain([0, d3.max(data, function(d){ 
+                        return d3.sum(Object.values(d.type_precinct_map[key]));
+                    })]);
+                    BarForAge.select(".yAxis")
+                             .call(d3.axisLeft(yScaleAge).tickFormat(function(d){
+                                return d;
+                             }).ticks());
+                    BarForAge.selectAll("rect")
+                                .attr("y", function(d) {
+                                    var cnt = d3.sum(Object.values(d.type_precinct_map[key]));
+                                    return yScaleAge(cnt);
+                                })
+                                .attr("height", function(d) { 
+                                    var cnt = d3.sum(Object.values(d.type_precinct_map[key]));
+                                    return BarHeight - yScaleAge(cnt);})
+                }
+                if (mode == 3){
+                    //console.log('success get mode 3');
+                    var type = key[0], precinct = key[1];
+                    yScaleAge.domain([0, d3.max(data, function(d){ 
+                        return d.type_precinct_map[type][precinct];
+                    })]);
+                    BarForAge.select(".yAxis")
+                             .call(d3.axisLeft(yScaleAge).tickFormat(function(d){
+                                return d;
+                             }).ticks());
+                    BarForAge.selectAll("rect")
+                                .attr("y", function(d) {
+                                    var cnt = d.type_precinct_map[type][precinct];
+                                    return yScaleAge(cnt);
+                                })
+                                .attr("height", function(d) { 
+                                    var cnt = d.type_precinct_map[type][precinct];
+                                    return BarHeight - yScaleAge(cnt);})
+                }
+            })
+            
+        }
+		
+	function highlightBar(crime_type){
+            barChart.selectAll('.bar')
+                    .select('path')
+                    .attr('fill-opacity', function(d){
+                        if (d.crime_type == crime_type){
+                            return 1;
+                        }
+                        return 0.35;
+                    })
+        }
 
 
 
