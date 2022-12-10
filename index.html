@@ -108,7 +108,7 @@
 			    .attr("stroke-width",0.75)
 			    .style('fill', '#E13C19')
 			    .style('fill-opacity', function(d){
-				if (data.hasOwnProperty(d.properties.Precinct.toString())){
+				if (data.hasOwnProperty(d.properties.Precinct)){
 				    return (data[d.properties.Precinct]['All'] - minFreq) / (maxFreq - minFreq);
 				}
 				return 0;
