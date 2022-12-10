@@ -92,10 +92,8 @@
                 
                 var freq_list = [];
                 // calculate sum values for each precinct
-                for (var i = 0; i < data.length; i++){
-			if (data[i].crime_type == "All"){
-			freq_list.push(data[i].freq);
-		       	}
+                for (id in data){
+                    freq_list.push(data[id]['All']);
                 }
                 maxFreq = d3.max(freq_list);
                 minFreq = d3.min(freq_list);
