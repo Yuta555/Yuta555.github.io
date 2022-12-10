@@ -87,7 +87,7 @@
         d3.json('police_precincts.geo.json').then(function(geo_data){
 		
             // concatenate csv with json
-            d3.csv('num_crime.json').then(function(data){
+            d3.json('num_crime.json').then(function(data){
                 // console.log(data)		  
                 
                 var freq_list = [];
