@@ -98,6 +98,11 @@
                           .attr('width', barWidth)
                           .attr('height', barHeight)
                           .attr("transform", "translate(" + barMargin.left+ "," + barMargin.top + ")");
+		
+	var reset_button = d3.select("button#reset")
+		     .on('click', function(){
+			 reset_map();
+			 reset_bar();
 
 		
         d3.json('police_precincts.geo.json').then(function(geo_data){
