@@ -95,7 +95,7 @@
 		    for (var j = 0; j < geo_data.features.length; j++) {
 			var jsonPrec = geo_data.features[j].properties.Precinct;
 			if (prec == jsonPrec) {
-			    get_data.features[j].properties.num_crime = num_crime;
+			    geo_data.features[j].properties.num_crime = num_crime;
 			    break;
 			}
 		    }
@@ -103,13 +103,13 @@
                 
                 // var data_by_precinct = d3.group(data, d => d.arrest_precinct);
                 // console.log(data_by_precinct)
-                var sum_cnt_list = [];
+                var freq_list = [];
                 // calculate sum values for each precinct
                 for (var i=0; i<data.length; i++){
-			sum_cnt_list.push(data[i].freq);
+			freq_list.push(data[i].freq);
                 }
-                maxCnt = d3.max(sum_cnt_list);
-                minCnt = d3.min(sum_cnt_list);
+                maxFreq = d3.max(freq_list);
+                minFreq = d3.min(freq_list);
 
                 // console.log(minCnt) 
                 // console.log(maxCnt)            
@@ -119,20 +119,17 @@
                 .enter().append('path')
                     .attr("id", function(d){return d.properties.Precinct.toString()})
                     .attr("tot_cnt", function(d){return d.properties.num_crime.toString()})
-                    .attr("stroke","grey")//设置边线颜色
-                    .attr("stroke-width",0.75)//设置边线宽度
+                    .attr("stroke","grey")
+                    .attr("stroke-width",0.75)
                     .style('fill', '#E13C19')
                     .style('fill-opacity', function(d){
                         if (data.hasOwnProperty(d.properties.Precinct.toString())){
-                            return (d.properties.num_crime.toString() - minCnt) / (maxCnt - minCnt);
+                            return (d.properties.num_crime.toString() - minFreq) / (maxFreq - minFreq);
                         }
                         return 0;
                     })
-                    // .style('fill', d => color(crime_cn4t.get(d.id.toString())))
                     .attr('d', pathGenerator)
                     .on('mouseover', function (d, i) {
-                            //console.log(this);
-                            // edit tooltip
                             console.log(d);
                             if (CRIME_TYPE == "all"){
                                 crime_cnt = d.properties.mum_crime;
