@@ -28,7 +28,7 @@
 
         // define global indicator
         var PRECINCT = 'all';
-        var crime_type = 'SEXUAL_CRIME';
+        var crime_type = 'MURDER';
 
         // initialization for all sub-graphs
 
@@ -93,7 +93,7 @@
                 var freq_list = [];
                 // calculate sum values for each precinct
                 for (id in data){
-                    freq_list.push(data[id]['All']);
+                    freq_list.push(data[id]['MURDER']);
                 }
                 maxFreq = d3.max(freq_list);
                 minFreq = d3.min(freq_list);
@@ -109,7 +109,7 @@
 			    .style('fill', '#E13C19')
 			    .style('fill-opacity', function(d){
 				if (data.hasOwnProperty(d.properties.Precinct)){
-				    return (data[d.properties.Precinct]['All'] - minFreq) / (maxFreq - minFreq);
+				    return (data[d.properties.Precinct]['MURDER'] - minFreq) / (maxFreq - minFreq);
 				}
 				return 0;
 			    })
@@ -155,19 +155,19 @@
                 d3.json('police_precincts.geo.json').then(function(geo_data){
                     // console.log(geo_data)
                     d3.json('num_crime.json').then(function(data){
-                        var sum_cnt_list = [];
+                        var crime_freq = [];
                         // calculae sum values for each precinct
-                        for (key in data){
-                            sum_cnt_list.push(data[key][crime_type]);
+                        for (id in data){
+                            crime_freq.push(data[id][crime_type]);
                         }
-                        maxCnt = d3.max(sum_cnt_list);
-                        minCnt = d3.min(sum_cnt_list);
+                        maxFreq = d3.max(crime_freq);
+                        minFreq = d3.min(crime_freq);
 
                         nycMap.selectAll('path')
                             .style('fill', CrimeColorMap[crime_type])
                             .style('fill-opacity', function(d){
-                                if (data.hasOwnProperty(d.properties.Precinct.toString())){
-                                    return (data[d.properties.Precinct.toString()][crime_type] - minCnt) / (maxCnt - minCnt);
+                                if (data.hasOwnProperty(d.properties.Precinct)){
+                                    return (data[d.properties.Precinct][crime_type] - minFreq) / (maxFreq - minFreq);
                                 }
                                 return 0;
                             })
@@ -180,19 +180,19 @@
             d3.json('police_precincts.geo.json').then(function(geo_data){
                     // console.log(geo_data)
                     d3.json('num_crime.json').then(function(data){
-                        var sum_cnt_list = [];
+                        var crime_freq = [];
                         // calculae sum values for each precinct
-                        for (key in data){
-                            sum_cnt_list.push(data[key]['sum']);
+                        for (id in data){
+                            crime_freq.push(data[id]['All']);
                         }
-                        maxCnt = d3.max(sum_cnt_list);
-                        minCnt = d3.min(sum_cnt_list);
+                        maxFreq = d3.max(crime_freq);
+                        minFreq = d3.min(crime_freq);
 
                         nycMap.selectAll('path')
                             .style('fill', '#E13C19')
                             .style('fill-opacity', function(d){
-                                if (data.hasOwnProperty(d.properties.Precinct.toString())){
-                                    return (data[d.properties.Precinct]['sum'] - minCnt) / (maxCnt - minCnt);
+                                if (data.hasOwnProperty(d.properties.Precinct)){
+                                    return (data[d.properties.Precinct]['All'] - minFreq) / (maxFreq - minFreq);
                                 }
                                 return 0;
                             })
