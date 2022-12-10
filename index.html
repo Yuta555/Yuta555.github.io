@@ -217,10 +217,10 @@
         }
 	
 	function bar_chart(){
-		d3.json('num_crime.json').then(function(data){
+		d3.json('num_crime_byType.json').then(function(data){
 
-		    xScaleAge.domain(data.map(function(d) { return d.; }));
-		    yScaleAge.domain([0, d3.max(data, function(d) { return d.cnt;})]);
+		    xScaleAge.domain(data.map(function(d) { return d.crime_type; }));
+		    yScaleAge.domain([0, d3.max(data, function(d) { return d.freq;})]);
 
 		    // draw axes
 		    barChart.append("g")
@@ -244,16 +244,16 @@
 		      .data(data)
 		      .enter().append("rect")
 			.attr("class", "bar")
-			.attr("x", function(d) { return xScaleAge(d.type); })
-			.attr("y", function(d) { return yScaleAge(d.cnt); })
+			.attr("x", function(d) { return xScaleAge(d.crime_type); })
+			.attr("y", function(d) { return yScaleAge(d.freq); })
 			.attr("width", xScaleAge.bandwidth())
-			.attr("height", function(d) { return barHeight - yScaleAge(d.cnt); })
+			.attr("height", function(d) { return barHeight - yScaleAge(d.freq); })
 			.style("fill", "#ECBA40")
 			.on('click', function(event, v){    
 			    //console.log(v);
-			    crime_type = v.data.type
-			    highlightArc(v.data.type)
-			    update_map(v.data.type);
+			    crime_type = v.data.crime_type
+			    highlightArc(v.data.crime_type)
+			    update_map(v.data.crime_type);
 			    });
 
         });
