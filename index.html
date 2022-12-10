@@ -251,9 +251,9 @@
 		.style("fill", "#ECBA40")
 		.on('click', function(v){    
 		    //console.log(v);
-		    crime_type = v.crime_type
-		    highlightBar(v.crime_type)
-		    update_map(v.crime_type);
+		    crime_type = v.data.crime_type
+		    highlightBar(v.data.crime_type)
+		    update_map(v.data.crime_type);
 		    });
 
 	 });
