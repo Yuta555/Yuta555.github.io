@@ -121,7 +121,7 @@
 			    .style('fill', '#E13C19')
 			    .style('fill-opacity', function(d){
 				if (data.hasOwnProperty(d.properties.Precinct.toString())){
-				    return (d.properties.num_crime.toString() - minFreq) / (maxFreq - minFreq);
+				    return (d.properties.numCrime - minFreq) / (maxFreq - minFreq);
 				}
 				return 0;
 			    })
