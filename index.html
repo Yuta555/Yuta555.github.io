@@ -105,7 +105,7 @@
 			.data(geo_data.features)
 			.enter().append('path')
 			    .attr("id", function(d){return d.properties.Precinct})
-			    //.attr("sum_freq", function(d){return data[d.properties.Precinct]['All']})
+			    .attr("sum_freq", function(d){return parseFloat(data[d.properties.Precinct]['All'])})
 			    .attr("stroke","grey")
 			    .attr("stroke-width",0.75)
 			    .style('fill', '#E13C19')
@@ -119,10 +119,10 @@
 			    .on('mouseover', function (d) {
 				    console.log(d);
 				    if (crime_type == "All"){
-					crime_freq = data[this.id]['All'];
+					crime_freq = parseFloat(data[this.id]['All']);
 				    }
 				    else{
-					crime_freq = data[this.id][crime_type];
+					crime_freq = parseFloat(data[this.id][crime_type]);
 				    }
 				    tooltip.style("visibility", "visible")
 					   .text("precinct-ID: " + this.id + "\n" + 
