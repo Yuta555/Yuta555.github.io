@@ -18,17 +18,25 @@
         const SvgHeight = 600
         
         // Map
-        const MapWidth = 100
-        const MapHeight = 50
+        const MapWidth = 200
+        const MapHeight = 100
         const MapMargin = {"left": -220, "top": -35}
         const LegendMargin = {"left": 0, "top": 10}
         const LegendSize = {"width": 20, "height": 100}
+	
+	// bar plot
+        const barWidth = 150
+        const barHeight =100
+        const barMargin = {"left": 500, "top": 250}
+
+	var xScaleAge = d3.scaleBand().range ([0, barWidth]).padding(0.4);
+	var yScaleAge = d3.scaleLinear().range ([barHeight, 0]);
        
         const duration = 24;
 
         // define global indicator
         var PRECINCT = 'all';
-        var crime_type = 'All';
+        var crime_type = 'MURDER';
 
         // initialization for all sub-graphs
 
@@ -77,25 +85,30 @@
 
         var colorAxis = legend.append('g').attr("transform", "translate(0," + LegendSize.height + ")");
         
-        const CrimeColorMap = {'ASSAULT': '#4daf4a', 
-                                'THEFT': '#377eb8',
-                                'ROBBERY': '#ff7f00',
-                                'SEX CRIMES': '#984ea3',
-                                'MURDER': '#6C182A'}
+        const CrimeColorMap = {'MURDER': '#4daf4a', 
+                                'ASSAULT_OFFENCE': '#377eb8',
+                                'ROBBERY_THEFT': '#ff7f00',
+                                'SEXUAL_CRIME': '#984ea3',
+                                'FRAUD': '#6C182A',
+			      	'HARRASSMENT': '#6C182A',
+			       	'OTHERS': '#6C182A'
+			      }
         
+	var barChart = svg.append('g')
+                          .attr('width', barWidth)
+                          .attr('height', barHeight)
+                          .attr("transform", "translate(" + barMargin.left+ "," + barMargin.top + ")");
 
-        d3.json('police_precincts.geo.json').then(function(geo_data){
 		
+        d3.json('police_precincts.geo.json').then(function(geo_data){
             // concatenate csv with json
-            d3.csv('num_crime.json').then(function(data){
+            d3.json('num_crime.json').then(function(data){
                 // console.log(data)		  
                 
                 var freq_list = [];
                 // calculate sum values for each precinct
-                for (var i = 0; i < data.length; i++){
-			if (data[i].crime_type == "All"){
-			freq_list.push(data[i].freq);
-		       	}
+                for (id in data){
+                    freq_list.push(data[id]['All']);
                 }
                 maxFreq = d3.max(freq_list);
                 minFreq = d3.min(freq_list);
@@ -105,13 +118,13 @@
 			.data(geo_data.features)
 			.enter().append('path')
 			    .attr("id", function(d){return d.properties.Precinct})
-			    .attr("sum_freq", function(d){return data[this.id]['All']})
+			    .attr("sum_freq", function(d){return data[d.properties.Precinct]['All']})
 			    .attr("stroke","grey")
 			    .attr("stroke-width",0.75)
 			    .style('fill', '#E13C19')
 			    .style('fill-opacity', function(d){
-				if (data.hasOwnProperty(d.properties.Precinct.toString())){
-				    return (this.sum_freq - minFreq) / (maxFreq - minFreq);
+				if (data.hasOwnProperty(d.properties.Precinct)){
+				    return (data[d.properties.Precinct]['All'] - minFreq) / (maxFreq - minFreq);
 				}
 				return 0;
 			    })
@@ -126,7 +139,7 @@
 				    }
 				    tooltip.style("visibility", "visible")
 					   .text("precinct-ID: " + this.id + "\n" + 
-					   "  crime count: " + this.crime_freq + "  crime_type: " + crime_type);
+					   "  crime count: " + crime_freq + "  crime_type: " + crime_type);
 
 				    d3.select(this).transition()
 					    .attr('stroke', 'black')
@@ -157,19 +170,19 @@
                 d3.json('police_precincts.geo.json').then(function(geo_data){
                     // console.log(geo_data)
                     d3.json('num_crime.json').then(function(data){
-                        var sum_cnt_list = [];
+                        var crime_freq = [];
                         // calculae sum values for each precinct
-                        for (key in data){
-                            sum_cnt_list.push(data[key][crime_type]);
+                        for (id in data){
+                            crime_freq.push(data[id][crime_type]);
                         }
-                        maxCnt = d3.max(sum_cnt_list);
-                        minCnt = d3.min(sum_cnt_list);
+                        maxFreq = d3.max(crime_freq);
+                        minFreq = d3.min(crime_freq);
 
                         nycMap.selectAll('path')
                             .style('fill', CrimeColorMap[crime_type])
                             .style('fill-opacity', function(d){
-                                if (data.hasOwnProperty(d.properties.Precinct.toString())){
-                                    return (data[d.properties.Precinct.toString()][crime_type] - minCnt) / (maxCnt - minCnt);
+                                if (data.hasOwnProperty(d.properties.Precinct)){
+                                    return (data[d.properties.Precinct][crime_type] - minFreq) / (maxFreq - minFreq);
                                 }
                                 return 0;
                             })
@@ -182,19 +195,19 @@
             d3.json('police_precincts.geo.json').then(function(geo_data){
                     // console.log(geo_data)
                     d3.json('num_crime.json').then(function(data){
-                        var sum_cnt_list = [];
+                        var crime_freq = [];
                         // calculae sum values for each precinct
-                        for (key in data){
-                            sum_cnt_list.push(data[key]['sum']);
+                        for (id in data){
+                            crime_freq.push(data[id]['All']);
                         }
-                        maxCnt = d3.max(sum_cnt_list);
-                        minCnt = d3.min(sum_cnt_list);
+                        maxFreq = d3.max(crime_freq);
+                        minFreq = d3.min(crime_freq);
 
                         nycMap.selectAll('path')
                             .style('fill', '#E13C19')
                             .style('fill-opacity', function(d){
-                                if (data.hasOwnProperty(d.properties.Precinct.toString())){
-                                    return (data[d.properties.Precinct.toString()]['sum'] - minCnt) / (maxCnt - minCnt);
+                                if (data.hasOwnProperty(d.properties.Precinct)){
+                                    return (data[d.properties.Precinct]['All'] - minFreq) / (maxFreq - minFreq);
                                 }
                                 return 0;
                             })
@@ -202,6 +215,49 @@
                     });    
             });
         }
+	
+	function bar_chart(){
+		d3.json('num_crime.json').then(function(data){
+
+		    xScaleAge.domain(data.map(function(d) { return d.; }));
+		    yScaleAge.domain([0, d3.max(data, function(d) { return d.cnt;})]);
+
+		    // draw axes
+		    barChart.append("g")
+			.attr("transform", "translate(0," + barHeight + ")")
+			.call(d3.axisBottom(xScaleAge))
+			.append("text")
+			.attr("y", barHeight - 220)
+			.attr("x", barWidth / 2)
+			.attr("text-anchor", "end")
+			.attr("stroke", "black")
+			.text("Bar Chart by Crime Type")
+			.style("font-size", "12px");
+
+		    barChart.append("g")
+			.attr("class", "yAxis")
+			.call(d3.axisLeft(yScaleAge).tickFormat(function(d){
+			return d;
+			}).ticks());
+
+		    barChart.selectAll(".bar")
+		      .data(data)
+		      .enter().append("rect")
+			.attr("class", "bar")
+			.attr("x", function(d) { return xScaleAge(d.type); })
+			.attr("y", function(d) { return yScaleAge(d.cnt); })
+			.attr("width", xScaleAge.bandwidth())
+			.attr("height", function(d) { return barHeight - yScaleAge(d.cnt); })
+			.style("fill", "#ECBA40")
+			.on('click', function(event, v){    
+			    //console.log(v);
+			    crime_type = v.data.type
+			    highlightArc(v.data.type)
+			    update_map(v.data.type);
+			    });
+
+        });
+
 
 
 
