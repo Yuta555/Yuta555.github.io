@@ -117,14 +117,14 @@
 			    .on('mouseover', function (d) {
 				    console.log(d);
 				    if (crime_type == "All"){
-					crime_freq = parseFloat(data[this.id]['All']);
+					crime_freq = data[this.id]['All'];
 				    }
 				    else{
-					crime_freq = parseFloat(data[this.id][crime_type]);
+					crime_freq = data[this.id][crime_type];
 				    }
 				    tooltip.style("visibility", "visible")
 					   .text("precinct-ID: " + this.id + "\n" + 
-					   "  crime count: " + this.crime_freq + "  crime_type: " + crime_type);
+					   "  crime count: " + crime_freq + "  crime_type: " + crime_type);
 
 				    d3.select(this).transition()
 					    .attr('stroke', 'black')
