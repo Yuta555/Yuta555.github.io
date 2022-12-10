@@ -77,11 +77,14 @@
 
         var colorAxis = legend.append('g').attr("transform", "translate(0," + LegendSize.height + ")");
         
-        const CrimeColorMap = {'ASSAULT': '#4daf4a', 
-                                'THEFT': '#377eb8',
-                                'ROBBERY': '#ff7f00',
-                                'SEX CRIMES': '#984ea3',
-                                'MURDER': '#6C182A'}
+        const CrimeColorMap = {'MURDER': '#4daf4a', 
+                                'ASSAULT_OFFENCE': '#377eb8',
+                                'ROBBERY_THEFT': '#ff7f00',
+                                'SEXUAL_CRIME': '#984ea3',
+                                'FRAUD': '#6C182A',
+			      	'HARRASSMENT': '#6C182A',
+			       	'OTHERS': '#6C182A'
+			      }
         
 
         d3.json('police_precincts.geo.json').then(function(geo_data){
@@ -93,7 +96,7 @@
                 var freq_list = [];
                 // calculate sum values for each precinct
                 for (id in data){
-                    freq_list.push(data[id]['MURDER']);
+                    freq_list.push(data[id]['All']);
                 }
                 maxFreq = d3.max(freq_list);
                 minFreq = d3.min(freq_list);
@@ -103,13 +106,13 @@
 			.data(geo_data.features)
 			.enter().append('path')
 			    .attr("id", function(d){return d.properties.Precinct})
-			    .attr("sum_freq", function(d){return data[d.properties.Precinct.toString()]['All']})
+			    .attr("sum_freq", function(d){return data[d.properties.Precinct]['All']})
 			    .attr("stroke","grey")
 			    .attr("stroke-width",0.75)
 			    .style('fill', '#E13C19')
 			    .style('fill-opacity', function(d){
 				if (data.hasOwnProperty(d.properties.Precinct)){
-				    return (data[d.properties.Precinct]['MURDER'] - minFreq) / (maxFreq - minFreq);
+				    return (data[d.properties.Precinct]['All'] - minFreq) / (maxFreq - minFreq);
 				}
 				return 0;
 			    })
