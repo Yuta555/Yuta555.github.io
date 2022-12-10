@@ -99,6 +99,8 @@
                           .attr('height', barHeight)
                           .attr("transform", "translate(" + barMargin.left+ "," + barMargin.top + ")");
 		
+	var barColor = d3.scaleOrdinal(['#4daf4a','#377eb8','#ff7f00','#984ea3','#6C182A']);
+		
 	var reset_button = d3.select("button#reset")
 		     .on('click', function(){
 			 reset_map();
@@ -254,12 +256,12 @@
 		.attr("y", function(d) { return yScaleAge(d.freq); })
 		.attr("width", xScaleAge.bandwidth())
 		.attr("height", function(d) { return barHeight - yScaleAge(d.freq); })
-		.style("fill", "#ECBA40")
-		.on('click', function(v){    
+		.style('fill', CrimeColorMap[data.crime_type])
+		.on('click', function(d){    
 		    //console.log(v);
-		    crime_type = v.crime_type
-		    highlightBar(v.crime_type)
-		    update_map(v.crime_type);
+		    crime_type = d.crime_type
+		    highlightBar(d.crime_type)
+		    update_map(d.crime_type);
 		    });
 
 	 });
