@@ -91,11 +91,11 @@
                 // console.log(data)
 		for (var i = 0; i < data.length; i++) {
 		    var prec = data[i].addr_pct_cd;
-		    var num_crime = parseFloat(data[i].freq);
+		    var num_crime = data[i].freq;
 		    for (var j = 0; j < geo_data.features.length; j++) {
 			var jsonPrec = geo_data.features[j].properties.Precinct;
 			if (prec == jsonPrec) {
-			    geo_data.features[j].properties.num_crime = num_crime;
+			    geo_data.features[j].properties.numCrime = num_crime;
 			    break;
 			}
 		    }
@@ -115,7 +115,7 @@
 			.data(geo_data.features)
 			.enter().append('path')
 			    .attr("id", function(d){return d.properties.Precinct.toString()})
-			    .attr("tot_cnt", function(d){return d.properties.num_crime.toString()})
+			    .attr("tot_cnt", function(d){return d.properties.numCrime.toString()})
 			    .attr("stroke","grey")
 			    .attr("stroke-width",0.75)
 			    .style('fill', '#E13C19')
@@ -136,7 +136,7 @@
 //				    }
 				    tooltip.style("visibility", "visible")
 					   .text("precinct-ID: " + this.id + "\n" + 
-					   "  crime count: " + data[this.id] + "  crime_type: " + "All");
+					   "  crime count: " + d.properties.numCrime + "  crime_type: " + "All");
 
 				    d3.select(this).transition()
 					    .attr('stroke', 'black')
