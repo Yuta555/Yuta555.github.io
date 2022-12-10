@@ -216,47 +216,48 @@
             });
         }
 	
-	function bar_chart(){
-		d3.json('num_crime_byType.json').then(function(data){
 
-		    xScaleAge.domain(data.map(function(d) { return d.crime_type; }));
-		    yScaleAge.domain([0, d3.max(data, function(d) { return d.freq;})]);
+	d3.json('num_crime_byType.json').then(function(data){
 
-		    // draw axes
-		    barChart.append("g")
-			.attr("transform", "translate(0," + barHeight + ")")
-			.call(d3.axisBottom(xScaleAge))
-			.append("text")
-			.attr("y", barHeight - 220)
-			.attr("x", barWidth / 2)
-			.attr("text-anchor", "end")
-			.attr("stroke", "black")
-			.text("Bar Chart by Crime Type")
-			.style("font-size", "12px");
+	    xScaleAge.domain(data.map(function(d) { return d.crime_type; }));
+	    yScaleAge.domain([0, d3.max(data, function(d) { return d.freq;})]);
 
-		    barChart.append("g")
-			.attr("class", "yAxis")
-			.call(d3.axisLeft(yScaleAge).tickFormat(function(d){
-			return d;
-			}).ticks());
+	    // draw axes
+	    barChart.append("g")
+		.attr("transform", "translate(0," + barHeight + ")")
+		.call(d3.axisBottom(xScaleAge))
+		.append("text")
+		.attr("y", barHeight - 220)
+		.attr("x", barWidth / 2)
+		.attr("text-anchor", "end")
+		.attr("stroke", "black")
+		.text("Bar Chart by Crime Type")
+		.style("font-size", "12px");
 
-		    barChart.selectAll(".bar")
-		      .data(data)
-		      .enter().append("rect")
-			.attr("class", "bar")
-			.attr("x", function(d) { return xScaleAge(d.crime_type); })
-			.attr("y", function(d) { return yScaleAge(d.freq); })
-			.attr("width", xScaleAge.bandwidth())
-			.attr("height", function(d) { return barHeight - yScaleAge(d.freq); })
-			.style("fill", "#ECBA40")
-			.on('click', function(event, v){    
-			    //console.log(v);
-			    crime_type = v.data.crime_type
-			    highlightArc(v.data.crime_type)
-			    update_map(v.data.crime_type);
-			    });
+	    barChart.append("g")
+		.attr("class", "yAxis")
+		.call(d3.axisLeft(yScaleAge).tickFormat(function(d){
+		return d;
+		}).ticks());
 
-        });
+	    barChart.selectAll(".bar")
+	      .data(data)
+	      .enter().append("rect")
+		.attr("class", "bar")
+		.attr("x", function(d) { return xScaleAge(d.crime_type); })
+		.attr("y", function(d) { return yScaleAge(d.freq); })
+		.attr("width", xScaleAge.bandwidth())
+		.attr("height", function(d) { return barHeight - yScaleAge(d.freq); })
+		.style("fill", "#ECBA40")
+		.on('click', function(event, v){    
+		    //console.log(v);
+		    crime_type = v.data.crime_type
+		    highlightArc(v.data.crime_type)
+		    update_map(v.data.crime_type);
+		    });
+
+	 });
+
 
 
 
