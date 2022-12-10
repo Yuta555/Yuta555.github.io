@@ -109,7 +109,7 @@
 			    .style('fill', '#E13C19')
 			    .style('fill-opacity', function(d){
 				if (data.hasOwnProperty(d.properties.Precinct.toString())){
-				    return (this.sum_freq - minFreq) / (maxFreq - minFreq);
+				    return (data[d.properties.Precinct.toString()]['All'] - minFreq) / (maxFreq - minFreq);
 				}
 				return 0;
 			    })
