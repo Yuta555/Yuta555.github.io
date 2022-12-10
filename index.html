@@ -256,7 +256,7 @@
 		.attr("y", function(d) { return yScaleAge(d.freq); })
 		.attr("width", xScaleAge.bandwidth())
 		.attr("height", function(d) { return barHeight - yScaleAge(d.freq); })
-		.style("fill", function(i, d){ return barColor(i)})
+		.attr("fill", function (d){ return barColor(d.crime_type); });
 		.on('click', function(d){    
 		    //console.log(v);
 		    crime_type = d.crime_type
