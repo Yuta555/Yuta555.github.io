@@ -85,17 +85,28 @@
         
 
         d3.json('police_precincts.geo.json').then(function(geo_data){
-            
-            // console.log(geo_data)
+		
+            // concatenate csv with json
             d3.csv('num_precinct.csv').then(function(data){
                 // console.log(data)
+		for (var i = 0; i < data.length; i++) {
+		    var prec = data[i].addr_pct_cd;
+		    var num_crime = parseFloat(data[i].freq);
+		    for (var j = 0; j < geo_data.features.length; j++) {
+			var jsonPrec = geo_data.features[j].properties.Precinct;
+			if (prec == jsonPrec) {
+			    get_data.features[j].properties.num_crime = num_crime;
+			    break;
+			}
+		    }
+		}
                 
                 // var data_by_precinct = d3.group(data, d => d.arrest_precinct);
                 // console.log(data_by_precinct)
                 var sum_cnt_list = [];
                 // calculate sum values for each precinct
-                for (key in data){
-                    sum_cnt_list.push(data[key]);
+                for (var i=0; i<data.length; i++){
+			sum_cnt_list.push(data[i].freq);
                 }
                 maxCnt = d3.max(sum_cnt_list);
                 minCnt = d3.min(sum_cnt_list);
@@ -107,13 +118,13 @@
                 .data(geo_data.features)
                 .enter().append('path')
                     .attr("id", function(d){return d.properties.Precinct.toString()})
-                    .attr("tot_cnt", function(d){return data[d.properties.Precinct.toString()]})
+                    .attr("tot_cnt", function(d){return d.properties.num_crime.toString()})
                     .attr("stroke","grey")//设置边线颜色
                     .attr("stroke-width",0.75)//设置边线宽度
                     .style('fill', '#E13C19')
                     .style('fill-opacity', function(d){
                         if (data.hasOwnProperty(d.properties.Precinct.toString())){
-                            return (data[d.properties.Precinct.toString()] - minCnt) / (maxCnt - minCnt);
+                            return (d.properties.num_crime.toString() - minCnt) / (maxCnt - minCnt);
                         }
                         return 0;
                     })
@@ -124,7 +135,7 @@
                             // edit tooltip
                             console.log(d);
                             if (CRIME_TYPE == "all"){
-                                crime_cnt = data[this.id];
+                                crime_cnt = d.properties.mum_crime;
                             }
                             else{
                                 crime_cnt = data[this.id][CRIME_TYPE];
