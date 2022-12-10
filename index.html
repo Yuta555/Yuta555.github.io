@@ -28,7 +28,7 @@
 
         // define global indicator
         var PRECINCT = 'all';
-        var CRIME_TYPE = 'all';
+        var crime_type = 'All';
 
         // initialization for all sub-graphs
 
@@ -87,25 +87,15 @@
         d3.json('police_precincts.geo.json').then(function(geo_data){
 		
             // concatenate csv with json
-            d3.csv('num_precinct.csv').then(function(data){
-                // console.log(data)
-		for (var i = 0; i < data.length; i++) {
-		    var prec = data[i].addr_pct_cd;
-		    var num_crime = data[i].freq;
-		    for (var j = 0; j < geo_data.features.length; j++) {
-			var jsonPrec = geo_data.features[j].properties.Precinct;
-			if (prec == jsonPrec) {
-			    geo_data.features[j].properties.numCrime = num_crime;
-			    break;
-			}
-		    }
-		}
-		  
+            d3.csv('num_crime.json').then(function(data){
+                // console.log(data)		  
                 
                 var freq_list = [];
                 // calculate sum values for each precinct
                 for (var i = 0; i < data.length; i++){
+			if (data[i].crime_type == "All"){
 			freq_list.push(data[i].freq);
+		       	}
                 }
                 maxFreq = d3.max(freq_list);
                 minFreq = d3.min(freq_list);
@@ -115,28 +105,28 @@
 			.data(geo_data.features)
 			.enter().append('path')
 			    .attr("id", function(d){return d.properties.Precinct})
-			    .attr("tot_cnt", function(d){return data[data.addr_pct_cd==this.id].freq})
+			    .attr("sum_freq", function(d){return data[this.id]['All']})
 			    .attr("stroke","grey")
 			    .attr("stroke-width",0.75)
 			    .style('fill', '#E13C19')
 			    .style('fill-opacity', function(d){
 				if (data.hasOwnProperty(d.properties.Precinct.toString())){
-				    return (d.properties.numCrime - minFreq) / (maxFreq - minFreq);
+				    return (this.sum_freq - minFreq) / (maxFreq - minFreq);
 				}
 				return 0;
 			    })
 			    .attr('d', pathGenerator)
 			    .on('mouseover', function (d) {
 				    console.log(d);
-//				    if (CRIME_TYPE == "all"){
-//					crime_cnt = d.properties.num_crime;
-//				    }
-//				    else{
-//					crime_cnt = data[this.id][CRIME_TYPE];
-//				    }
+				    if (crime_type == "All"){
+					crime_freq = data[this.id]['All'];
+				    }
+				    else{
+					crime_freq = data[this.id][crime_type];
+				    }
 				    tooltip.style("visibility", "visible")
 					   .text("precinct-ID: " + this.id + "\n" + 
-					   "  crime count: " + this.tot_cnt + "  crime_type: " + "All");
+					   "  crime count: " + this.crime_freq + "  crime_type: " + crime_type);
 
 				    d3.select(this).transition()
 					    .attr('stroke', 'black')
@@ -166,7 +156,7 @@
         function update_map(crime_type){
                 d3.json('police_precincts.geo.json').then(function(geo_data){
                     // console.log(geo_data)
-                    d3.json('num_precinct.csv').then(function(data){
+                    d3.json('num_crime.json').then(function(data){
                         var sum_cnt_list = [];
                         // calculae sum values for each precinct
                         for (key in data){
@@ -191,7 +181,7 @@
         function reset_map(){
             d3.json('police_precincts.geo.json').then(function(geo_data){
                     // console.log(geo_data)
-                    d3.json('num_precinct.csv').then(function(data){
+                    d3.json('num_crime.json').then(function(data){
                         var sum_cnt_list = [];
                         // calculae sum values for each precinct
                         for (key in data){
