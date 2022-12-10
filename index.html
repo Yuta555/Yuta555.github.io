@@ -114,8 +114,8 @@
                 map.selectAll('path')
 			.data(geo_data.features)
 			.enter().append('path')
-			    .attr("id", function(d){return d.properties.Precinct.toString()})
-			    .attr("tot_cnt", function(d){return d.properties.numCrime.toString()})
+			    .attr("id", function(d){return d.properties.Precinct})
+			    .attr("tot_cnt", function(d){return data[addr_pct_cd==this.id].freq})
 			    .attr("stroke","grey")
 			    .attr("stroke-width",0.75)
 			    .style('fill', '#E13C19')
@@ -136,7 +136,7 @@
 //				    }
 				    tooltip.style("visibility", "visible")
 					   .text("precinct-ID: " + this.id + "\n" + 
-					   "  crime count: " + geo_data.features.properties.numCrime + "  crime_type: " + "All");
+					   "  crime count: " + this.tot_cnt + "  crime_type: " + "All");
 
 				    d3.select(this).transition()
 					    .attr('stroke', 'black')
