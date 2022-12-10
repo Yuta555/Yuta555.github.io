@@ -51,7 +51,7 @@
                                 .attr("height", SvgHeight)
                                 .style('fill', 'white')
 
-        var nycMap = svg.append('g')
+        var map = svg.append('g')
                           .attr('width', MapWidth)
                           .attr('height', MapHeight)
                           .attr("transform", "translate(" + MapMargin.left+ "," + MapMargin.top + ")");
@@ -100,6 +100,7 @@
 			}
 		    }
 		}
+		  
                 
                 // var data_by_precinct = d3.group(data, d => d.arrest_precinct);
                 // console.log(data_by_precinct)
@@ -114,46 +115,46 @@
                 // console.log(minCnt) 
                 // console.log(maxCnt)            
 
-                nycMap.selectAll('path')
-                .data(geo_data.features)
-                .enter().append('path')
-                    .attr("id", function(d){return d.properties.Precinct.toString()})
-                    .attr("tot_cnt", function(d){return d.properties.num_crime.toString()})
-                    .attr("stroke","grey")
-                    .attr("stroke-width",0.75)
-                    .style('fill', '#E13C19')
-                    .style('fill-opacity', function(d){
-                        if (data.hasOwnProperty(d.properties.Precinct.toString())){
-                            return (d.properties.num_crime.toString() - minFreq) / (maxFreq - minFreq);
-                        }
-                        return 0;
-                    })
-                    .attr('d', pathGenerator)
-                    .on('mouseover', function (d, i) {
-                            console.log(d);
-                            if (CRIME_TYPE == "all"){
-                                crime_cnt = d.properties.mum_crime;
-                            }
-                            else{
-                                crime_cnt = data[this.id][CRIME_TYPE];
-                            }
-                            tooltip.style("visibility", "visible")
-                                   .text("precinct-ID: " + this.id + "\n" + 
-                                   "  crime count: " + crime_cnt + "  crime_type: " + CRIME_TYPE);
+                map.selectAll('path')
+			.data(geo_data.features)
+			.enter().append('path')
+			    .attr("id", function(d){return d.properties.Precinct.toString()})
+			    .attr("tot_cnt", function(d){return d.properties.num_crime.toString()})
+			    .attr("stroke","grey")
+			    .attr("stroke-width",0.75)
+			    .style('fill', '#E13C19')
+			    .style('fill-opacity', function(d){
+				if (data.hasOwnProperty(d.properties.Precinct.toString())){
+				    return (d.properties.num_crime.toString() - minFreq) / (maxFreq - minFreq);
+				}
+				return 0;
+			    })
+			    .attr('d', pathGenerator)
+			    .on('mouseover', function (d) {
+				    console.log(d);
+//				    if (CRIME_TYPE == "all"){
+//					crime_cnt = d.properties.num_crime;
+//				    }
+//				    else{
+//					crime_cnt = data[this.id][CRIME_TYPE];
+//				    }
+				    tooltip.style("visibility", "visible")
+					   .text("precinct-ID: " + d.properties.Precinct + "\n" + 
+					   "  crime count: " + d.properties.num_crime + "  crime_type: " + "All");
 
-                            d3.select(this).transition()
-                                    .attr('stroke', 'black')
-                                    .attr("stroke-width", 1);
-		    })
-                    .on("mousemove", function(){
-                            return tooltip.style("top", (event.pageY-20)+"px")
-                                          .style("left",(event.pageX+20)+"px");})
-                    .on('mouseout', function (d, i) {
-                            tooltip.style("visibility", "hidden");
-                            d3.select(this).transition()
-                                    .attr('stroke', 'grey')
-                                    .attr("stroke-width",0.75);   
-                    })
+				    d3.select(this).transition()
+					    .attr('stroke', 'black')
+					    .attr("stroke-width", 1);
+			    })
+			    .on("mousemove", function(){
+				    return tooltip.style("top", (event.pageY-20)+"px")
+						  .style("left",(event.pageX+20)+"px");})
+			    .on('mouseout', function (d, i) {
+				    tooltip.style("visibility", "hidden");
+				    d3.select(this).transition()
+					    .attr('stroke', 'grey')
+					    .attr("stroke-width",0.75);   
+			    })
 
             });    
         });
