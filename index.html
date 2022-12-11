@@ -11,7 +11,6 @@
         <h2>NYC Crime Map</h2>
         <div align="center" style="position:relative;top:10px">
         	<button id="reset">Reset</button>
-		<select id="selectButton"></select>
         </div> 
 	
         <script>
@@ -22,14 +21,12 @@
         // Map
         const MapWidth = 500
         const MapHeight = 300
-        const MapMargin = {"left": -220, "top": -35}
-        const LegendMargin = {"left": 0, "top": 10}
-        const LegendSize = {"width": 20, "height": 100}
+        const MapMargin = {"left": -220, "top": 200}
 	
 	// bar plot
         const barWidth = 600
         const barHeight = 300
-        const barMargin = {"left": 700, "top": 200}
+        const barMargin = {"left": 650, "top": 200}
 
 	var xScaleAge = d3.scaleBand().range ([0, barWidth]).padding(0.4);
 	var yScaleAge = d3.scaleLinear().range ([barHeight, 0]);
@@ -65,14 +62,6 @@
                           .attr('height', MapHeight)
                           .attr("transform", "translate(" + MapMargin.left+ "," + MapMargin.top + ")");
         
-        // legend for heatmap
-        var legend = svg.append('g')
-            .attr("transform", "translate(" + LegendMargin.left + "," + (LegendMargin.top) + ")")
-            
-        legend.append("rect")
-            .attr("width", LegendSize.width)
-            .attr("height", LegendSize.height)
-            .style("fill", "black");
         
         // create tooltip
         var tooltip = d3.select("body")
@@ -108,12 +97,6 @@
 			 reset_map();
 			 reset_bar();
 		     });
-
-
-
-
-        // run the updateChart function with this selected option
-
 
 		
         d3.json('police_precincts.geo.json').then(function(geo_data){
@@ -266,24 +249,6 @@
 		    update_map(d.crime_type);
 		    });
 		
-	    // add the options to the button
-	    d3.select("#selectButton")
-	      .selectAll('myOptions')
-		.data(dropdownList)
-	      .enter()
-		.append('option')
-	      .text(function (d) { return d; }) // text showed in the menu
-	      .attr("value", function (d) { return d; }) // corresponding value returned by the button
-		
-	    //var myColor = d3.scaleOrdinal()
-	    //  .domain(dropdownList)
-	    //  .range(d3.schemeSet2);
-		
-	    d3.select("#selectButton")
-		    .data(dropdownList)
-		    .on("change", function(d) {
-		    update_map(d.crime_type)
-	    })
 
 
 	 });
