@@ -151,8 +151,7 @@
 	// Bar Chart
 	d3.json('num_crime_byType.json').then(function(data){
 
-	    xScaleAge.domain(data.map(function(d) { return d.crime_type; }))
-		     .style("font-size", "10px");
+	    xScaleAge.domain(data.map(function(d) { return d.crime_type; }));
 	    yScaleAge.domain([0, d3.max(data, function(d) { return d.freq;})]);
 
 	    barChart.append("g")
