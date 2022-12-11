@@ -128,8 +128,8 @@
 					crime_freq = data[this.id][CRIME_TYPE];
 				    }
 				    tooltip.style("visibility", "visible")
-					   .text("Precinct: " + this.id + "\n" + 
-					   "  # of Crime: " + crime_freq + "  Crime Type: " + CRIME_TYPE);
+					   .text("Precinct-ID: " + this.id + ",\n" + 
+					   "  # of Crime: " + crime_freq + ",  Crime Type: " + CRIME_TYPE);
 
 				    d3.select(this).transition()
 					    .attr('stroke', 'black')
@@ -158,8 +158,8 @@
 		.attr("transform", "translate(0," + barHeight + ")")
 		.call(d3.axisBottom(xScale))
 		.append("text")
-		.attr("y", barHeight - 200)
-		.attr("x", barWidth / 2 + 10)
+		.attr("y", barHeight - 50)
+		.attr("x", barWidth / 2 + 50)
 		.attr("text-anchor", "end")
 		.attr("fill", "black")
 		.text("Bar Chart by Crime Type")
