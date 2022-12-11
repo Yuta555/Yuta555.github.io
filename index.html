@@ -163,7 +163,7 @@
 		.attr("text-anchor", "end")
 		.attr("stroke", "black")
 		.text("Bar Chart by Crime Type")
-		.style("font-size", "8px");
+		.style("font-size", "12px");
 
 	    barChart.append("g")
 		.attr("class", "yAxis")
@@ -258,13 +258,6 @@
             });
         }
 	
-
-
-        function calcTranslate(data, move = 5) {
-            const moveAngle = data.startAngle + ((data.endAngle - data.startAngle) / 2);
-            return `translate(${- move * Math.cos(moveAngle + Math.PI / 2)}, ${- move * Math.sin(moveAngle + Math.PI / 2)})`;
-        }
-
 
         </script>
     </body>
