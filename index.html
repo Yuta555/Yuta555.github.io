@@ -9,7 +9,7 @@
 	</head>
 	<body>
         <h2>NYC Crime Map</h2>
-        <div align="center" style="position:relative;top:10px">
+        <div align="left" style="position:relative;top:12px">
         	<button id="reset">Reset</button>
         </div> 
 	
@@ -128,8 +128,8 @@
 					crime_freq = data[this.id][CRIME_TYPE];
 				    }
 				    tooltip.style("visibility", "visible")
-					   .text("precinct-ID: " + this.id + "\n" + 
-					   "  crime count: " + crime_freq + "  crime_type: " + CRIME_TYPE);
+					   .text("Precinct: " + this.id + "\n" + 
+					   "  # of Crime: " + crime_freq + "  Crime Type: " + CRIME_TYPE);
 
 				    d3.select(this).transition()
 					    .attr('stroke', 'black')
@@ -151,7 +151,8 @@
 	// Bar Chart
 	d3.json('num_crime_byType.json').then(function(data){
 
-	    xScaleAge.domain(data.map(function(d) { return d.crime_type; }));
+	    xScaleAge.domain(data.map(function(d) { return d.crime_type; }))
+		     .style("font-size", "10px");
 	    yScaleAge.domain([0, d3.max(data, function(d) { return d.freq;})]);
 
 	    barChart.append("g")
@@ -180,7 +181,8 @@
 		.attr("y", function(d) { return yScaleAge(d.freq); })
 		.attr("width", xScaleAge.bandwidth())
 		.attr("height", function(d) { return barHeight - yScaleAge(d.freq); })
-		.attr("fill", function (d){ return barColor(d.crime_type); })
+		.style("fill", "#696969")
+		//.attr("fill", function (d){ return barColor(d.crime_type); })
 		.on('click', function(event, d){    
 		    CRIME_TYPE = d.crime_type
 		    highlightBar(d.crime_type)
@@ -189,9 +191,9 @@
 	 });
 
 	function highlightBar(crimeType){
-            barChart.selectAll('.bar')
+            	barChart.select('.bar')
                     .select('path')
-                    .style('fill-opacity', function(d){
+                    .style('fill', function(d){
                         if (d.crime_type == crimeType){
                             return 1;
                         }
