@@ -163,7 +163,7 @@
 		.attr("text-anchor", "end")
 		.attr("stroke", "black")
 		.text("Bar Chart by Crime Type")
-		.style("font-size", "12px");
+		.style("font-size", "14px");
 
 	    barChart.append("g")
 		.attr("class", "yAxis")
@@ -176,10 +176,10 @@
 	      .data(data)
 	      .enter().append("rect")
 		.attr("class", "bar")
-		.attr("x", function(d) { return xScaleAge(d.crime_type); })
-		.attr("y", function(d) { return yScaleAge(d.freq); })
-		.attr("width", xScaleAge.bandwidth())
-		.attr("height", function(d) { return barHeight - yScaleAge(d.freq); })
+		.attr("x", function(d) { return xScale(d.crime_type); })
+		.attr("y", function(d) { return yScale(d.freq); })
+		.attr("width", xScale.bandwidth())
+		.attr("height", function(d) { return barHeight - yScale(d.freq); })
 		.style("fill", "#696969")
 		//.attr("fill", function (d){ return barColor(d.crime_type); })
 		.on('click', function(event, d){    
