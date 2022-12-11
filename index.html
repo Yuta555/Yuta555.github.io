@@ -171,6 +171,7 @@
 		return d;
 		}).ticks());
 
+	    barChart.selectAll(".bar").remove();
 	    barChart.selectAll(".bar")
 	      .data(data)
 	      .enter().append("rect")
@@ -182,11 +183,29 @@
 		.attr("fill", function (d){ return barColor(d.crime_type); })
 		.on('click', function(event, d){    
 		    CRIME_TYPE = d.crime_type
-		    highlightBar(d.crime_type)
-		    update_map(d.crime_type);
+		    //highlightBar(d.crime_type)
+		    update_map(d.crime_type)
+		    barChart.selectAll('.bar')
+			    .select('path')
+			    .attr('fill-opacity', function(d){
+				if (d.crime_type == crimeType){
+				    return 1;
+				}
+				return 0.35;
+			    });
 		    });
 	 });
 
+	function highlightBar(crimeType){
+            barChart.selectAll('.bar')
+                    .select('path')
+                    .attr('fill-opacity', function(d){
+                        if (d.crime_type == crimeType){
+                            return 1;
+                        }
+                        return 0.35;
+                    })
+        }
 		
         // Function for updating heat map after click
         function update_map(crimeType){
@@ -239,17 +258,6 @@
             });
         }
 	
-
-	function highlightBar(crimeType){
-            barChart.selectAll('.bar')
-                    .select('path')
-                    .attr('fill-opacity', function(d){
-                        if (d.crime_type == crimeType){
-                            return 1;
-                        }
-                        return 0.35;
-                    })
-        }
 
 
         function calcTranslate(data, move = 5) {
