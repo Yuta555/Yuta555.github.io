@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<title>NYC Crime</title>
-		<script src="https://d3js.org/d3.v6.js"></script>
+		<script src="https://d3js.org/d3.v7.js"></script>
         <script src="https://d3js.org/d3-array.v2.min.js"></script>
         <script src="https://d3js.org/d3-geo.v2.min.js"></script>
 	</head>
@@ -11,7 +11,20 @@
         <h2>NYC Crime Heat Map and Bar Chart</h2>
         <div align="left" style="position:relative;top:14px">
         	<button id="reset">Reset</button>
-        </div> 
+		<button id="instruction">Instruction</button>
+        </div>
+	
+	 <div class="modal-content">
+	    <span class="close">&times;</span>
+	    <h1>Instructions</h1>
+		<p>The visualization is based on the NYC crime data between 2013 and 2022 which can be exported from NYC OpenData
+			This visualization provides you with interactive experiences in the following way:</p>
+		<ul>
+			<li>Initially, you will see a heat map for total number of 
+		<ul>
+			<li>The color overlaying each precinct will disappear once you have zoomed in enough</li>
+		</ul>
+		  </div>
 	
         <script>
         // canvas setting
@@ -70,9 +83,9 @@
             .text("a simple tooltip");
         
         var CrimeColorMap = {	MURDER: '#4daf4a', 
-                                ASSAULT_OFFENCE: '#377eb8',
-                                ROBBERY_THEFT: '#ff7f00',
-                                SEXUAL_CRIME: '#984ea3',
+                                ASSAULT: '#377eb8',
+                                ROBBERY: '#ff7f00',
+                                SEXUALCRIME: '#984ea3',
                                 FRAUD: '#6C182A',
 			      	HARRASSMENT: '#ffd700',
 			       	OTHERS: '#696969'
