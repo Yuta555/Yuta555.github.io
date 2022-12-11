@@ -167,7 +167,7 @@
 		.attr("text-anchor", "end")
 		.attr("stroke", "black")
 		.text("Bar Chart by Crime Type")
-		.style("font-size", "12px");
+		.style("font-size", "10px");
 
 	    barChart.append("g")
 		.attr("class", "yAxis")
@@ -190,20 +190,17 @@
 		    highlightBar(d.crime_type)
 		    update_map(d.crime_type);
 		    });
-
 	 });
 
 		
-        
+        // Function for updating heat map after click
         function update_map(crimeType){
                 d3.json('police_precincts.geo.json').then(function(geo_data){
-			
                     d3.json('num_crime.json').then(function(data){
 			    
-			    
                         var crime_freq = [];
-                        // calculae sum values for each precinct
-                        for (id in data){
+
+			for (id in data){
                             crime_freq.push(data[id][crimeType]);
                         }
                         maxFreq = d3.max(crime_freq);
