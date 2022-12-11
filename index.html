@@ -183,8 +183,8 @@
 		.style("fill", "#696969")
 		//.attr("fill", function (d){ return barColor(d.crime_type); })
 		.on('click', function(event, d){
-		    barChart.select(".bar")
-		    	    .style("fill", CrimeColorMap[d.crime_type])
+		    d3.select(this).select(".bar")
+		    	           .style("fill", CrimeColorMap[d.crime_type])
 		    CRIME_TYPE = d.crime_type
 		    //highlightBar(d.crime_type)
 		    update_map(d.crime_type)
