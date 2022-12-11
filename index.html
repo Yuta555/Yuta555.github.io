@@ -21,7 +21,7 @@
         // Map
         const MapWidth = 500
         const MapHeight = 300
-        const MapMargin = {"left": -220, "top": 200}
+        const MapMargin = {"left": -220, "top": 100}
 	
 	// bar plot
         const barWidth = 600
@@ -73,13 +73,13 @@
             .style("visibility", "hidden")
             .text("a simple tooltip");
         
-        const CrimeColorMap = {'MURDER': '#4daf4a', 
-                                'ASSAULT_OFFENCE': '#377eb8',
-                                'ROBBERY_THEFT': '#ff7f00',
-                                'SEXUAL_CRIME': '#984ea3',
-                                'FRAUD': '#6C182A',
-			      	'HARRASSMENT': '#6C182A',
-			       	'OTHERS': '#6C182A'
+        const CrimeColorMap = {MURDER: '#4daf4a', 
+                                ASSAULT_OFFENCE: '#377eb8',
+                                ROBBERY_THEFT: '#ff7f00',
+                                SEXUAL_CRIME: '#984ea3',
+                                FRAUD: '#6C182A',
+			      	HARRASSMENT: '#6C182A',
+			       	OTHERS: '#6C182A'
 			      }
         
 	var barChart = svg.append('g')
@@ -251,7 +251,6 @@
 
 	 });
 
-
 		
 	function highlightBar(crime_type){
             barChart.selectAll('.bar')
@@ -263,7 +262,6 @@
                         return 0.35;
                     })
         }
-
 
 
         function calcTranslate(data, move = 5) {
