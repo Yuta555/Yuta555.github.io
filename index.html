@@ -27,7 +27,7 @@
 	// bar plot
         const barWidth = 500
         const barHeight = 200
-        const barMargin = {"left": 600, "top": 300}
+        const barMargin = {"left": 600, "top": 200}
 
 	var xScaleAge = d3.scaleBand().range ([0, barWidth]).padding(0.4);
 	var yScaleAge = d3.scaleLinear().range ([barHeight, 0]);
@@ -48,7 +48,6 @@
         const pathGenerator = d3.geoPath()
             .projection(projection);
         
-        var centered;
         var svg = d3.select("body").append("svg")
                     .attr("width", SvgWidth)
                     .attr("height", SvgHeight)
@@ -267,64 +266,7 @@
 
 	 });
 
-	function update_age(mode, key){
-            d3.json('num_crime_byType.json').then(function(data){
-                if (mode == 1){
-                    yScaleAge.domain([0, d3.max(data, function(d){ 
-                        return d3.sum(Object.values(d.precinct_type_map[key]));
-                    })]);
-                    BarForAge.select(".yAxis")
-                             .call(d3.axisLeft(yScaleAge).tickFormat(function(d){
-                                return d;
-                             }).ticks());
-                    BarForAge.selectAll("rect")
-                                .attr("y", function(d) {
-                                    var cnt = d3.sum(Object.values(d.precinct_type_map[key]));
-                                    return yScaleAge(cnt);
-                                })
-                                .attr("height", function(d) { 
-                                    var cnt = d3.sum(Object.values(d.precinct_type_map[key]));
-                                    return BarHeight - yScaleAge(cnt);})
-                    }
-                if (mode == 2){
-                    yScaleAge.domain([0, d3.max(data, function(d){ 
-                        return d3.sum(Object.values(d.type_precinct_map[key]));
-                    })]);
-                    BarForAge.select(".yAxis")
-                             .call(d3.axisLeft(yScaleAge).tickFormat(function(d){
-                                return d;
-                             }).ticks());
-                    BarForAge.selectAll("rect")
-                                .attr("y", function(d) {
-                                    var cnt = d3.sum(Object.values(d.type_precinct_map[key]));
-                                    return yScaleAge(cnt);
-                                })
-                                .attr("height", function(d) { 
-                                    var cnt = d3.sum(Object.values(d.type_precinct_map[key]));
-                                    return BarHeight - yScaleAge(cnt);})
-                }
-                if (mode == 3){
-                    //console.log('success get mode 3');
-                    var type = key[0], precinct = key[1];
-                    yScaleAge.domain([0, d3.max(data, function(d){ 
-                        return d.type_precinct_map[type][precinct];
-                    })]);
-                    BarForAge.select(".yAxis")
-                             .call(d3.axisLeft(yScaleAge).tickFormat(function(d){
-                                return d;
-                             }).ticks());
-                    BarForAge.selectAll("rect")
-                                .attr("y", function(d) {
-                                    var cnt = d.type_precinct_map[type][precinct];
-                                    return yScaleAge(cnt);
-                                })
-                                .attr("height", function(d) { 
-                                    var cnt = d.type_precinct_map[type][precinct];
-                                    return BarHeight - yScaleAge(cnt);})
-                }
-            })
-            
-        }
+
 		
 	function highlightBar(crime_type){
             barChart.selectAll('.bar')
