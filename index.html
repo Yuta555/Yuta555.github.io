@@ -31,10 +31,6 @@
 	var xScaleAge = d3.scaleBand().range ([0, barWidth]).padding(0.4);
 	var yScaleAge = d3.scaleLinear().range ([barHeight, 0]);
        
-        const duration = 24;
-
-        // define global indicator
-        var PRECINCT = 'all';
         var CRIME_TYPE = 'All';
 
         // initialization for all sub-graphs
@@ -136,7 +132,7 @@
 					   "  crime count: " + crime_freq + "  crime_type: " + CRIME_TYPE);
 
 				    d3.select(this).transition()
-					    .attr('stroke', 'red')
+					    .attr('stroke', 'black')
 					    .attr("stroke-width", 1.2);
 			    })
 			    .on("mousemove", function(){
@@ -167,7 +163,7 @@
 		.attr("text-anchor", "end")
 		.attr("stroke", "black")
 		.text("Bar Chart by Crime Type")
-		.style("font-size", "10px");
+		.style("font-size", "8px");
 
 	    barChart.append("g")
 		.attr("class", "yAxis")
@@ -185,9 +181,9 @@
 		.attr("height", function(d) { return barHeight - yScaleAge(d.freq); })
 		.attr("fill", function (d){ return barColor(d.crime_type); })
 		.on('click', function(event, d){    
-		    CRIME_TYPE = d.data.crime_type
-		    highlightBar(d.data.crime_type)
-		    update_map(d.data.crime_type);
+		    CRIME_TYPE = d.crime_type
+		    highlightBar(d.crime_type)
+		    update_map(d.crime_type);
 		    });
 	 });
 
