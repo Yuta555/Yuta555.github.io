@@ -7,6 +7,67 @@
         <script src="https://d3js.org/d3-array.v2.min.js"></script>
         <script src="https://d3js.org/d3-geo.v2.min.js"></script>
 	</head>
+	<style type="text/css">
+	.modal {
+	    display: none; /* Hidden by default */
+	    position: fixed; /* Stay in place */
+	    z-index: 1; /* Sit on top */
+	    left: 0;
+	    top: 0;
+	    width: 100%; /* Full width */
+	    height: 100%; /* Full height */
+	    overflow: auto; /* Enable scroll if needed */
+	    background-color: rgb(0,0,0); /* Fallback color */
+	    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+	}
+
+	/* Modal Content/Box */
+	.modal-content {
+	    background-color: #fefefe;
+	    margin: 5% auto; /* 15% from the top and centered */
+	    padding: 20px;
+	    border: 1px solid #888;
+	    width: 80%; /* Could be more or less, depending on screen size */
+	}
+
+	/* The Close Button */
+	.close {
+	    color: #aaa;
+	    float: right;
+	    font-size: 28px;
+	    font-weight: bold;
+	}
+
+	.close:hover,
+	.close:focus {
+	    color: black;
+	    text-decoration: none;
+	    cursor: pointer;
+	}
+
+	.instruction {
+	  position: fixed;
+	  bottom: 40px;
+	  right: 40px;
+	  cursor:pointer;
+	  -webkit-border-radius: 10;
+	  -moz-border-radius: 10;
+	  border-radius: 10px;
+	  font-family: Arial;
+	  color: white;
+	  font-size: 14px;
+	  background: grey;
+	  padding: 10px 20px 10px 20px;
+	  text-decoration: none;
+	  font-weight: bold;
+	}
+
+	.instruction:hover {
+	  background: black;
+	  text-decoration: none;
+	}
+	</style>
+
 	<body>
         <h2>NYC Crime Heat Map and Bar Chart</h2>
         <div align="left" style="position:relative;top:14px">
@@ -20,11 +81,9 @@
 		<p>The following visualization is based on the NYC crime data between 2013 and 2022 which can be exported from NYC OpenData.</p>
 		<p>This visualization provides you with interactive experiences in the following way:</p>
 		<ul>
-			<li>Initially, you will see a heat map for the total number of all types of crime.
-		<ul>
+			<li>Initially, you will see a heat map for the total number of all types of crime.</li>
 			<li>If you click one bar on the bar chart by crime type, the heat map on the left will change so that the based data is limited to the crime type you choose, as well as the color changes.　</li>
-		<ul>
-			<li>You can reset heatmap to the initial state by clicking "Reset" button.
+			<li>You can reset heatmap to the initial state by clicking "Reset" button.</li>
 		</ul>
 	</div>
 	
