@@ -178,8 +178,8 @@
 		.attr("class", "bar")
 		.attr("y", function(d) { return yScale(d.crime_type); })
 		.attr("x", function(d) { return xScale(d.freq); })
-		.attr("width", xScale.bandwidth())
-		.attr("height", function(d) { return BarHeight - yScale(d.freq); })
+		.attr("height", yScale.bandwidth())
+		.attr("width", function(d) { return barWidth - yScale(d.freq); })
 		.attr("fill", function (d){ return barColor(d.crime_type); })
 		.on('click', function(event, d){
 		    d3.select(this).select(".bar")
