@@ -158,10 +158,10 @@
 		.attr("transform", "translate(0," + barHeight + ")")
 		.call(d3.axisBottom(xScale))
 		.append("text")
-		.attr("y", barHeight - 220)
-		.attr("x", barWidth / 2)
+		.attr("y", barHeight - 200)
+		.attr("x", barWidth / 2 + 10)
 		.attr("text-anchor", "end")
-		.attr("stroke", "black")
+		.attr("fill", "black")
 		.text("Bar Chart by Crime Type")
 		.style("font-size", "14px");
 
