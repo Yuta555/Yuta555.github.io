@@ -171,15 +171,6 @@
 		return d;
 		}).ticks());
 
-	    barChart.append("text")
-		    .attr("x", xScale / 2)
-		    .attr("y", function(d) {
-			return yScale(d) + 20;
-			})
-		    .text(function(d) {
-			return d;
-			})
-
 	    barChart.selectAll(".bar").remove();
 	    barChart.selectAll(".bar")
 	      .data(data)
