@@ -8,8 +8,8 @@
         <script src="https://d3js.org/d3-geo.v2.min.js"></script>
 	</head>
 	<body>
-        <h2>NYC Crime Map</h2>
-        <div align="left" style="position:relative;top:12px">
+        <h2>NYC Crime</h2>
+        <div align="left" style="position:relative;top:14px">
         	<button id="reset">Reset</button>
         </div> 
 	
@@ -156,18 +156,18 @@
 
 	    barChart.append("g")
 		.attr("transform", "translate(0," + barHeight + ")")
-		.call(d3.axisBottom(yScale))
+		.call(d3.axisBottom(xScale))
 		.append("text")
-		.attr("x", barHeight - 220)
-		.attr("y", barWidth / 2)
+		.attr("y", barHeight - 220)
+		.attr("x", barWidth / 2)
 		.attr("text-anchor", "end")
 		.attr("stroke", "black")
 		.text("Bar Chart by Crime Type")
 		.style("font-size", "14px");
 
 	    barChart.append("g")
-		.attr("class", "xAxis")
-		.call(d3.axisLeft(xScale).tickFormat(function(d){
+		.attr("class", "yAxis")
+		.call(d3.axisLeft(yScale).tickFormat(function(d){
 		return d;
 		}).ticks());
 
@@ -176,10 +176,10 @@
 	      .data(data)
 	      .enter().append("rect")
 		.attr("class", "bar")
-		.attr("x", function(d) { return yScale(d.crime_type); })
-		.attr("y", function(d) { return xScale(d.freq); })
-		.attr("width", yScale.bandwidth())
-		.attr("height", function(d) { return barHeight - xScale(d.freq); })
+		.attr("y", function(d) { return yScale(d.crime_type); })
+		.attr("x", function(d) { return xScale(d.freq); })
+		.attr("width", barHeight)
+		.attr("height", function(d) { return xScale.bandwidth() - xScale(d.freq); })
 		.attr("fill", function (d){ return barColor(d.crime_type); })
 		.on('click', function(event, d){
 		    d3.select(this).select(".bar")
