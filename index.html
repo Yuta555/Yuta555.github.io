@@ -36,7 +36,7 @@
 
         // define global indicator
         var PRECINCT = 'all';
-        var crime_type = 'All';
+        var CRIME_TYPE = 'All';
 
         // initialization for all sub-graphs
 
@@ -139,15 +139,15 @@
 			    .attr('d', pathGenerator)
 			    .on('mouseover', function (d) {
 				    console.log(d);
-				    if (crime_type == "All"){
+				    if (CRIME_TYPE == "All"){
 					crime_freq = data[this.id]['All'];
 				    }
 				    else{
-					crime_freq = data[this.id][crime_type];
+					crime_freq = data[this.id][CRIME_TYPE];
 				    }
 				    tooltip.style("visibility", "visible")
 					   .text("precinct-ID: " + this.id + "\n" + 
-					   "  crime count: " + crime_freq + "  crime_type: " + crime_type);
+					   "  crime count: " + crime_freq + "  crime_type: " + CRIME_TYPE);
 
 				    d3.select(this).transition()
 					    .attr('stroke', 'black')
@@ -176,8 +176,10 @@
         
         function update_map(crime_type){
                 d3.json('police_precincts.geo.json').then(function(geo_data){
-                    // console.log(geo_data)
+			
                     d3.json('num_crime.json').then(function(data){
+			    
+			    
                         var crime_freq = [];
                         // calculae sum values for each precinct
                         for (id in data){
@@ -187,7 +189,7 @@
                         minFreq = d3.min(crime_freq);
 
                         map.selectAll('path')
-			    .attr("fill", function (d){ return CrimeColorMap(d.crime_type); })
+			    .attr("fill", CrimeColorMap[crime_type])
                             .style('fill-opacity', function(d){
                                 if (data.hasOwnProperty(d.properties.Precinct)){
                                     return (data[d.properties.Precinct][crime_type] - minFreq) / (maxFreq - minFreq);
@@ -259,7 +261,7 @@
 		.attr("fill", function (d){ return barColor(d.crime_type); })
 		.on('click', function(d){    
 		    //console.log(v);
-		    crime_type = d.crime_type
+		    CRIME_TYPE = d.crime_type
 		    highlightBar(d.crime_type)
 		    update_map(d.crime_type);
 		    });
@@ -329,7 +331,7 @@
             barChart.selectAll('.bar')
                     .select('path')
                     .attr('fill-opacity', function(d){
-                        if (d.crime_type == crime_type){
+                        if (d.crime_type == CRIME_TYPE){
                             return 1;
                         }
                         return 0.35;
