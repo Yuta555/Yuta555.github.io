@@ -10,9 +10,10 @@
 	<body>
         <h2>NYC Crime Map</h2>
         <div align="center" style="position:relative;top:10px">
-        <button id="reset">Reset</button>
+        	<button id="reset">Reset</button>
+		<select id="selectButton"></select>
         </div> 
-	<select id="selectButton"></select>
+	
         <script>
         // canvas setting
         const SvgWidth = 1200
@@ -108,6 +109,12 @@
 			 reset_bar();
 		     });
 
+
+
+
+        // run the updateChart function with this selected option
+
+
 		
         d3.json('police_precincts.geo.json').then(function(geo_data){
             // concatenate csv with json
@@ -166,13 +173,6 @@
 
             });    
         });
-        
-
-        function zoomed(event) {
-            const {transform} = event;
-            nycMap.attr("transform", transform);
-            nycMap.attr("stroke-width", 1 / transform.k);
-            }
         
         
         function update_map(crimeType){
@@ -278,6 +278,12 @@
 	    //var myColor = d3.scaleOrdinal()
 	    //  .domain(dropdownList)
 	    //  .range(d3.schemeSet2);
+		
+	    d3.select("#selectButton")
+		    .data(dropdownList)
+		    .on("change", function(d) {
+		    update_map(d.crime_type)
+	    })
 
 
 	 });
