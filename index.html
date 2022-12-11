@@ -11,32 +11,56 @@
         <h2>NYC Crime Heat Map and Bar Chart</h2>
         <div align="left" style="position:relative;top:14px">
         	<button id="reset">Reset</button>
-		<button id="instruction">Instruction</button>
+		<button id="myBtn" class="instruction">Instruction</button>
         </div>
 	
 	 <div class="modal-content">
 	    <span class="close">&times;</span>
 	    <h1>Instructions</h1>
-		<p>The visualization is based on the NYC crime data between 2013 and 2022 which can be exported from NYC OpenData
-			This visualization provides you with interactive experiences in the following way:</p>
+		<p>The following visualization is based on the NYC crime data between 2013 and 2022 which can be exported from NYC OpenData.</p>
+		<p>This visualization provides you with interactive experiences in the following way:</p>
 		<ul>
-			<li>Initially, you will see a heat map for total number of 
+			<li>Initially, you will see a heat map for the total number of all types of crime.
 		<ul>
-			<li>The color overlaying each precinct will disappear once you have zoomed in enough</li>
+			<li>If you click one bar on the bar chart by crime type, the heat map on the left will change so that the based data is limited to the crime type you choose, as well as the color changes.　</li>
+		<ul>
+			<li>You can reset heatmap to the initial state by clicking "Reset" button.
 		</ul>
-		  </div>
+	</div>
 	
-        <script>
-        // canvas setting
+        <script>		
+	var modal = document.getElementById('myModal');
+
+	// Get the button that opens the modal
+	var btn = document.getElementById("myBtn");
+
+	// Get the <span> element that closes the modal
+	var span = document.getElementsByClassName("close")[0];
+
+	// When the user clicks on the button, open the modal
+	btn.onclick = function() {
+	    modal.style.display = "block";
+	}
+
+	// When the user clicks on <span> (x), close the modal
+	span.onclick = function() {
+	    modal.style.display = "none";
+	}
+
+	// When the user clicks anywhere outside of the modal, close it
+	window.onclick = function(event) {
+	    if (event.target == modal) {
+		modal.style.display = "none";
+	    }
+	}
+		
         const SvgWidth = 1200
         const SvgHeight = 600
         
-        // Map
         const MapWidth = 600
         const MapHeight = 400
         const MapMargin = {"left": -200, "top": 50}
 	
-	// bar plot
         const barWidth = 600
         const barHeight = 300
         const barMargin = {"left": 600, "top": 100}
@@ -46,12 +70,9 @@
        
         var CRIME_TYPE = 'All';
 
-        // initialization for all sub-graphs
-
-        // nyc map
-        const projection = d3.geoMercator()// mercator makes it easy to center on specific lat/long
+        const projection = d3.geoMercator()
                 .scale(43000)
-                .center([-73.94, 40.70]); // long, lat of NYC
+                .center([-73.94, 40.70]); 
 
         const pathGenerator = d3.geoPath()
             .projection(projection);
