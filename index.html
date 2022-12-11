@@ -221,7 +221,7 @@
                         minFreq = d3.min(crime_freq);
 
                         map.selectAll('path')
-			    .attr("fill", CrimeColorMap[crimeType])
+			    .attr("fill", '#984ea3')
                             .style('fill-opacity', function(d){
                                 if (data.hasOwnProperty(d.properties.Precinct)){
                                     return (data[d.properties.Precinct][crimeType] - minFreq) / (maxFreq - minFreq);
