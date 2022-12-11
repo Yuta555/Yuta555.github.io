@@ -151,8 +151,8 @@
 	// Bar Chart
 	d3.json('num_crime_byType.json').then(function(data){
 
-	    yScale.domain(data.map(function(d) { return d.crime_type; }));
-	    xScale.domain([0, d3.max(data, function(d) { return d.freq;})]);
+	    xScale.domain(data.map(function(d) { return d.crime_type; }));
+	    yScale.domain([0, d3.max(data, function(d) { return d.freq;})]);
 
 	    barChart.append("g")
 		.attr("transform", "translate(0," + barHeight + ")")
@@ -176,10 +176,10 @@
 	      .data(data)
 	      .enter().append("rect")
 		.attr("class", "bar")
-		.attr("y", function(d) { return yScale(d.crime_type); })
-		.attr("x", function(d) { return xScale(d.freq); })
-		.attr("height", yScale)
-		.attr("width", function(d) { return barWidth - xScale(d.freq); })
+		.attr("x", function(d) { return xScale(d.crime_type); })
+		.attr("y", function(d) { return yScale(d.freq); })
+		.attr("width", xScale.bandwidth())
+		.attr("height", function(d) { return BarHeight - yScale(d.freq); })
 		.attr("fill", function (d){ return barColor(d.crime_type); })
 		.on('click', function(event, d){
 		    d3.select(this).select(".bar")
