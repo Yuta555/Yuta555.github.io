@@ -73,7 +73,7 @@
             .style("visibility", "hidden")
             .text("a simple tooltip");
         
-        const CrimeColorMap = {MURDER: '#4daf4a', 
+        var CrimeColorMap = {	MURDER: '#4daf4a', 
                                 ASSAULT_OFFENCE: '#377eb8',
                                 ROBBERY_THEFT: '#ff7f00',
                                 SEXUAL_CRIME: '#984ea3',
@@ -137,7 +137,7 @@
 
 				    d3.select(this).transition()
 					    .attr('stroke', 'red')
-					    .attr("stroke-width", 1);
+					    .attr("stroke-width", 1.2);
 			    })
 			    .on("mousemove", function(){
 				    return tooltip.style("top", (event.pageY-20)+"px")
@@ -245,12 +245,11 @@
         }
 	
 
-		
-	function highlightBar(crime_type){
+	function highlightBar(crimeType){
             barChart.selectAll('.bar')
                     .select('path')
                     .attr('fill-opacity', function(d){
-                        if (d.crime_type == CRIME_TYPE){
+                        if (d.crime_type == crimeType){
                             return 1;
                         }
                         return 0.35;
