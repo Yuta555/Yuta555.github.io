@@ -88,7 +88,6 @@
                           .attr("transform", "translate(" + barMargin.left+ "," + barMargin.top + ")");
 		
 	const barColor = d3.scaleOrdinal(['#4daf4a','#377eb8','#ff7f00','#984ea3','#6C182A','#6C182A','#6C182A']);
-	const dropdownList = ['MURDER','ASSAULT_OFFENCE','ROBBERY_THEFT','SEXUAL_CRIME','FRAUD','HARRASSMENT','OTHERS','All']
 		
 	var reset_button = d3.select("button#reset")
 		     .on('click', function(){
@@ -96,15 +95,13 @@
 			 reset_bar();
 		     });
 
-		
+	
+	// Heat Map
         d3.json('police_precincts.geo.json').then(function(geo_data){
-            // concatenate csv with json
             d3.json('num_crime.json').then(function(data){
-                // console.log(data)		  
-                
                 var freq_list = [];
-                // calculate sum values for each precinct
-                for (id in data){
+
+		for (id in data){
                     freq_list.push(data[id]['All']);
                 }
                 maxFreq = d3.max(freq_list);
@@ -139,7 +136,7 @@
 					   "  crime count: " + crime_freq + "  crime_type: " + CRIME_TYPE);
 
 				    d3.select(this).transition()
-					    .attr('stroke', 'black')
+					    .attr('stroke', 'red')
 					    .attr("stroke-width", 1);
 			    })
 			    .on("mousemove", function(){
@@ -151,10 +148,52 @@
 					    .attr('stroke', 'grey')
 					    .attr("stroke-width",0.75);   
 			    })
-
             });    
         });
         
+		
+	// Bar Chart
+	d3.json('num_crime_byType.json').then(function(data){
+
+	    xScaleAge.domain(data.map(function(d) { return d.crime_type; }));
+	    yScaleAge.domain([0, d3.max(data, function(d) { return d.freq;})]);
+
+	    barChart.append("g")
+		.attr("transform", "translate(0," + barHeight + ")")
+		.call(d3.axisBottom(xScaleAge))
+		.append("text")
+		.attr("y", barHeight - 220)
+		.attr("x", barWidth / 2)
+		.attr("text-anchor", "end")
+		.attr("stroke", "black")
+		.text("Bar Chart by Crime Type")
+		.style("font-size", "12px");
+
+	    barChart.append("g")
+		.attr("class", "yAxis")
+		.call(d3.axisLeft(yScaleAge).tickFormat(function(d){
+		return d;
+		}).ticks());
+
+	    barChart.selectAll(".bar")
+	      .data(data)
+	      .enter().append("rect")
+		.attr("class", "bar")
+		.attr("x", function(d) { return xScaleAge(d.crime_type); })
+		.attr("y", function(d) { return yScaleAge(d.freq); })
+		.attr("width", xScaleAge.bandwidth())
+		.attr("height", function(d) { return barHeight - yScaleAge(d.freq); })
+		.attr("fill", function (d){ return barColor(d.crime_type); })
+		.on('click', function(event, d){    
+		    //console.log(v);
+		    CRIME_TYPE = d.crime_type
+		    highlightBar(d.crime_type)
+		    update_map(d.crime_type);
+		    });
+
+	 });
+
+		
         
         function update_map(crimeType){
                 d3.json('police_precincts.geo.json').then(function(geo_data){
@@ -208,48 +247,6 @@
             });
         }
 	
-	// Bar Chart
-	d3.json('num_crime_byType.json').then(function(data){
-
-	    xScaleAge.domain(data.map(function(d) { return d.crime_type; }));
-	    yScaleAge.domain([0, d3.max(data, function(d) { return d.freq;})]);
-
-	    barChart.append("g")
-		.attr("transform", "translate(0," + barHeight + ")")
-		.call(d3.axisBottom(xScaleAge))
-		.append("text")
-		.attr("y", barHeight - 220)
-		.attr("x", barWidth / 2)
-		.attr("text-anchor", "end")
-		.attr("stroke", "black")
-		.text("Bar Chart by Crime Type")
-		.style("font-size", "12px");
-
-	    barChart.append("g")
-		.attr("class", "yAxis")
-		.call(d3.axisLeft(yScaleAge).tickFormat(function(d){
-		return d;
-		}).ticks());
-
-	    barChart.selectAll(".bar")
-	      .data(data)
-	      .enter().append("rect")
-		.attr("class", "bar")
-		.attr("x", function(d) { return xScaleAge(d.crime_type); })
-		.attr("y", function(d) { return yScaleAge(d.freq); })
-		.attr("width", xScaleAge.bandwidth())
-		.attr("height", function(d) { return barHeight - yScaleAge(d.freq); })
-		.attr("fill", function (d){ return barColor(d.crime_type); })
-		.on('click', function(event, d){    
-		    //console.log(v);
-		    CRIME_TYPE = d.crime_type
-		    highlightBar(d.crime_type)
-		    update_map(d.crime_type);
-		    });
-		
-
-
-	 });
 
 		
 	function highlightBar(crime_type){
