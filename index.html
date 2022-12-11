@@ -74,8 +74,8 @@
                                 ROBBERY_THEFT: '#ff7f00',
                                 SEXUAL_CRIME: '#984ea3',
                                 FRAUD: '#6C182A',
-			      	HARRASSMENT: '#6C182A',
-			       	OTHERS: '#6C182A'
+			      	HARRASSMENT: '#ffd700',
+			       	OTHERS: '#696969'
 			      }
         
 	var barChart = svg.append('g')
@@ -83,7 +83,7 @@
                           .attr('height', barHeight)
                           .attr("transform", "translate(" + barMargin.left+ "," + barMargin.top + ")");
 		
-	const barColor = d3.scaleOrdinal(['#4daf4a','#377eb8','#ff7f00','#984ea3','#6C182A','#6C182A','#6C182A']);
+	const barColor = d3.scaleOrdinal(['#4daf4a','#377eb8','#ff7f00','#984ea3','#6C182A','#ffd700','#696969']);
 		
 	var reset_button = d3.select("button#reset")
 		     .on('click', function(){
