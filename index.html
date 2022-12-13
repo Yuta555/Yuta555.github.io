@@ -139,11 +139,11 @@
         const pathGenerator = d3.geoPath()
             .projection(projection);
         
-        var svg = d3.select("body").append("svg")
+        const svg = d3.select("body").append("svg")
                     .attr("width", SvgWidth)
                     .attr("height", SvgHeight)
         
-        var background = svg.append("rect")
+        const background = svg.append("rect")
                                 .attr("class", "background")
                                 .attr("width", SvgWidth)
                                 .attr("height", SvgHeight)
@@ -323,6 +323,8 @@
             });
         }
 
+		
+	// Function for resetting heat map after click
         function reset_map(){
             d3.json('police_precincts.geo.json').then(function(geo_data){
                     // console.log(geo_data)
@@ -343,6 +345,8 @@
                                 }
                                 return 0;
                             })
+			    
+			CRIME_TYPE = "All";
 
                     });    
             });
